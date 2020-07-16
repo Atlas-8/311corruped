@@ -1,12 +1,12 @@
 package jm.demo.service;
 
+import jm.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import jm.demo.dao.UserDao;
 import jm.demo.model.Role;
 import jm.demo.model.User;
 import java.sql.SQLException;
@@ -16,60 +16,69 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserDao userDao;
     private final RoleService roleService;
     private final PasswordEncoder encoder;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, PasswordEncoder encoder, RoleService roleService) {
-        this.userDao = userDao;
+    public UserServiceImpl(PasswordEncoder encoder, RoleService roleService, UserRepository userRepository) {
         this.roleService = roleService;
         this.encoder = encoder;
+        this.userRepository = userRepository;
     }
 
     @Transactional
     @Override
     public void add(User user) {
-        User userFromDB = userDao.findByUsername(user.getUsername());
+        User userFromDB = userRepository.getUserByLogin(user.getUsername());
         if (userFromDB != null) {
             throw new RuntimeException("login is already exist");
         }
         user.setRoles(Collections.singleton(roleService.getRole("ROLE_USER")));
         user.setPassword(encoder.encode(user.getPassword()));
-        userDao.add(user);
+        userRepository.saveAndFlush(user);
     }
 
     @Override
     public void madeAdmin(User user){
         Role role = roleService.getRole("ROLE_ADMIN");
-        userDao.madeAdmin(user, role);
+        role.getUsers().add(user);
+        user.getRoles().add(role);
+        userRepository.saveAndFlush(user);
     }
 
     public void dismissAdmin(User user){
         Role role = roleService.getRole("ROLE_ADMIN");
-        userDao.dismissAdmin(user, role);
+        role.getUsers().remove(user);
+        user.getRoles().remove(role);
+        userRepository.saveAndFlush(user);
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<User> listUsers() {
-        return userDao.listUsers();
+        return userRepository.findAll();
     }
 
     @Override
     public void deleteUser(long id) throws SQLException {
-        userDao.deleteUser(id);
+        userRepository.deleteById(id);
     }
 
     @Override
-    public void updateUser(User user, long oldId){
-        user.setPassword(encoder.encode(user.getPassword()));
-        userDao.updateUser(user, oldId);
+    public void updateUser(String name, String adress, String email, String login, String password, long oldId){
+        User userDto = userRepository.findById(oldId).get();
+        userDto.setName(name);
+        userDto.setName(email);
+        userDto.setName(adress);
+        userDto.setName(login);
+        userDto.setPassword(encoder.encode(password));
+        userRepository.saveAndFlush(userDto);
     }
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        User user = userDao.findByUsername(name);
+        User user = userRepository.getUserByLogin(name);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
@@ -78,6 +87,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getById(long id){
-        return userDao.getById(id);
+        return userRepository.getOne(id);
     }
 }
