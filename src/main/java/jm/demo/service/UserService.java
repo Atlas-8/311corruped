@@ -13,7 +13,7 @@ public interface UserService extends UserDetailsService {
     List<User> listUsers();
     void add(User user);
     void deleteUser(long id) throws SQLException;
-    void updateUser(User user, long oldId);
+    void updateUser(String name, String adress, String email, String login, String password, long oldId);
     UserDetails loadUserByUsername(String var1) throws UsernameNotFoundException;
     User getById(long id);
     void madeAdmin(User user);

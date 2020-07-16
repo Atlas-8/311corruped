@@ -112,7 +112,7 @@ public class AdminController {
         String email = request.getParameter("email");
         String login = request.getParameter("username");
         String password = request.getParameter("password");
-        userService.updateUser(new User(oldId,name,adress,email, login, password), oldId);
+        userService.updateUser(name, adress, email, login, password, oldId);
         response.sendRedirect("/admin/");
     }
 }
