@@ -2,76 +2,229 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <title>Admin panel</title>
     <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Users</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <!-- JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
-<div class="container my-2">
-    <div class="card">
+
+
+<nav class="navbar navbar-dark bg-dark">
+    <p class="nav-item nav-text text-white my-1" th:object="${admin}"><span th:text="*{email}"></span> with roles:
+        <span th:each="role : *{roles}">
+            <span th:text="${role}"></span>
+        </span>
+    </p>
+    <a class="nav-item nav-text text-light text-right" href="/logout">Logout</a>
+</nav>
+
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="list-group list-group-flush col-2">
+        <button class="btn btn-primary btn-block text-left mt-4">Admin</button>
+        <a href="/user" class="btn btn-link btn-sm btn-block text-left" th:if="${admin.isUser()}">User</a>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div class="card container-fluid" id="page-content-wrapper">
+
         <div class="card-body">
-            <div th:switch="${users}" class="container my-5">
-                <div class="row" style="margin-left: 2%; margin-bottom: 1%">
-                    <div>
-                        <form class="button" th:action="@{/admin/saveUser}" method="GET">
-                            <input type="submit" class="btn btn-primary" value="Add new user"/>
-                        </form>
-                    </div>
-                    <div style="padding-left: 2%"></div>
-                    <div>
-                        <form class="button" th:action="@{/logout}" method="GET">
-                            <input type="submit" class="btn btn-primary" value="Logout"/>
-                        </form>
-                    </div>
-                    <div style="padding-left: 2%"></div>
-                    <div>
-                        <form class="button" th:action="@{/user/}" method="GET">
-                            <input type="submit" class="btn btn-primary" value="Your home page"/>
-                        </form>
-                    </div>
-                    <div style="padding-left: 7%"></div>
-                    <div>
-                        <p style="font-size: larger" th:object="${admin}">Welcome to admin page,   <span th:text="*{name}"></span></p>
-                    </div>
-                </div>
-                <div class="col-md-10">
-                    <h2 th:case="null">No users yet!</h2>
-                    <div th:case="*">
-                        <table class="table table-striped table-responsive-md">
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Adress</th>
-                                <th>Login</th>
-                                <th>Password</th>
-                                <th>Roles</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="user : ${users}">
-                                <td th:text="${user.name}"></td>
-                                <td th:text="${user.email}"></td>
-                                <td th:text="${user.adress}"></td>
-                                <td th:text="${user.username}"></td>
-                                <td th:text="${user.password}"></td>
-                                <td th:text="${user.roles}"></td>
-                                <td><a th:href="@{/admin/updateUser/{id}(id=${user.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
-                                <td><a th:href="@{/admin/deleteUser/{id}(id=${user.id})}" class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+
+            <div class="card-title h1">Admin panel</div>
+
+
+            <div class="card-title">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Users table</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/saveUserPage">New user</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card-title h4">All users</div>
+
+            <div class="card-title">
+                <table class="table table-striped" id="usersTable">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Adress</th>
+                        <th>Login</th>
+                        <th>Password</th>
+                        <th>Roles</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.name}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.adress}"></td>
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.password}"></td>
+                        <td>
+                            <div th:each="userRole : *{user.roles}">
+                                <span th:text="${userRole}"></span>
+                            </div>
+                        </td>
+
+
+                        <td>
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editModal" th:value="${user.id}">
+                                Edit
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" th:value="${user.id}">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalEditLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalEditLabel">Edit user</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalEditBody">
+                <!--dynamic js content-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Edit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalDeleteLabel">Delete user</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalDeleteBody">
+                <!--dynamic js content-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="modalDeleteButton">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function getFromAPI(url) {
+
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", url, false ); // false for synchronous request
+        xmlHttp.send( null );
+        if(xmlHttp.responseText){
+            return xmlHttp.responseText;
+        }
+        return false
+    }
+
+    function postToAPI(url) {
+
+        var xmlHttp = new XMLHttpRequest();
+
+        var formData = new FormData();
+        formData.append("id", $( '#editModal #modalEdit_id' ).val());
+        formData.append("login", $( '#editModal #modalEdit_username' ).val());
+        formData.append("password", $( '#editModal #modalEdit_password' ).val());
+        formData.append("name", $( '#editModal #modalEdit_name' ).val());
+        formData.append("email", $( '#editModal #modalEdit_email' ).val());
+        formData.append("adress", $( '#editModal #modalEdit_adress' ).val());
+        formData.append("role", $( '#editModal #modalEdit_role' ).val());
+        console.log(formData.values());
+        for (var value of formData.values()) {
+            console.log(value);
+        }
+        xmlHttp.open( "POST", url, false ); // false for synchronous request
+
+        xmlHttp.send( formData );
+        if(xmlHttp.responseText){
+            return xmlHttp.responseText;
+        }
+        return false
+    }
+
+    var modalHTML = '';
+    var responseStatus = '';
+
+    $("#usersTable").on( "click", "button.btn-info ", function() {
+        modalHTML = getFromAPI('/admin/getUserModal/' + $( this ).attr('value'));
+        $("#modalEditBody form").remove();
+        $("#modalEditBody").append(modalHTML);
+    });
+
+    $("#usersTable").on( "click", "button.btn-danger ", function() {
+        modalHTML = getFromAPI('/admin/deleteUserModal/' + $( this ).attr('value'));
+        $("#modalDeleteBody form").remove();
+        $("#modalDeleteBody").append(modalHTML);
+    });
+
+    $("#editModal").on( "click", "button.btn-primary", function() {
+        console.log('button clicked')
+        responseStatus = JSON.parse(postToAPI('/admin/editUserAction/'));
+        console.log(responseStatus);
+        if(responseStatus.status == 'success'){
+            $('#editModal').modal('dispose');
+            location.reload();
+            console.log('Edition complete');
+        } else {
+            console.log('Response status not success');
+        }
+    });
+
+    $("#deleteModal").on( "click", "button.btn-danger", function() {
+        console.log('button clicked');
+        responseStatus = JSON.parse(getFromAPI('/admin/deleteUserAction/' + $( '#deleteModal #modalDelete_id' ).attr('value')));
+        console.log(responseStatus);
+        if(responseStatus.status == 'success'){
+            $('#modalDelete').modal('dispose');
+            location.reload();
+            console.log('Deletion complete');
+        } else {
+            console.log('Response status not success');
+        }
+    });
+
+</script>
+
 </body>
 </html>

@@ -1,39 +1,78 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<html>
 <head>
+    <title>Admin panel</title>
     <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Home page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
 </head>
+
 <body>
-<br>
-<div th:object="${user}" class="container my-5">
-    <h1> Welcome to the home page of <span th:text="*{name}"></span></h1>
 
-    <br/><br/>
-    <u>Registered data</u>
-    <br/><br/><br/>
-    <p>Login: <span th:text="*{username}"></span></p>
-    <br/>
-    <p>Password: <span th:text="*{password}"></span></p>
-    <br/>
-    <p>Name: <span th:text="*{name}"></span></p>
-    <br/>
-    <p>Adress: <span th:text="*{adress}"></span></p>
-    <br/>
-    <p>Email: <span th:text="*{email}"></span></p>
-    <br/><br/>
-    <form class="button" th:action="@{../logout}" method="GET">
-        <input type="submit" class="btn btn-primary" value="Logout"/>
-    </form>
 
+<nav class="navbar navbar-dark bg-dark">
+
+    <p class="nav-item nav-text text-white my-1" th:object="${user}"><span th:text="*{email}"></span> with roles:
+        <span th:each="role : *{roles}">
+            <span th:text="${role}"></span>
+        </span>
+    </p>
+    <a class="nav-item nav-text text-light text-right" href="/logout">Logout</a>
+
+</nav>
+
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="list-group list-group-flush col-2">
+        <a href="/admin" class="btn btn-link btn-sm text-left mt-4" th:if="${user.isAdmin()}">Admin</a>
+        <button class="btn btn-sm btn-block btn-block text-left" th:if="${not user.isAdmin()}"></button>
+        <button class="btn btn-primary btn-block btn-block text-left">User</button>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div class="card container-fluid" id="page-content-wrapper">
+
+        <div class="card-body">
+
+            <div class="card-title h1">User information-page</div>
+
+            <div class="card-title">
+
+                <table class="table table-striped ">
+                    <thead>
+                    <tr><div class="h4">About user</div></tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Adress</th>
+                        <th>Login</th>
+                        <th>Roles</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td  th:text="${user.id}"></td>
+                        <td  th:text="${user.name}"></td>
+                        <td  th:text="${user.email}"></td>
+                        <td  th:text="${user.adress}"></td>
+                        <td  th:text="${user.username}"></td>
+                        <td>
+                            <div th:each="userRole : *{user.roles}">
+                                <span th:text="${userRole}"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

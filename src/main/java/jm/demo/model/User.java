@@ -5,11 +5,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "users231")
 public class User implements UserDetails {
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(login);
+    }
 
     @Id
     @Column(name = "id")
@@ -149,4 +155,19 @@ public class User implements UserDetails {
         this.Email = email;
     }
 
+    public boolean isUser(){
+        return getRoles().contains(new Role(0L, "ROLE_USER"));
+    }
+
+    public boolean isAdmin(){
+        return getRoles().contains(new Role(0L, "ROLE_ADMIN"));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(login, user.login);
+    }
 }

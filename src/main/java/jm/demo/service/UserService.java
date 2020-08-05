@@ -12,10 +12,13 @@ public interface UserService extends UserDetailsService {
 
     List<User> listUsers();
     void add(User user);
-    void deleteUser(long id) throws SQLException;
-    void updateUser(String name, String adress, String email, String login, String password, long oldId);
+    boolean deleteUser(long id) throws SQLException;
+    boolean updateUser(String name, String adress, String email, String login, String password, long oldId);
     UserDetails loadUserByUsername(String var1) throws UsernameNotFoundException;
     User getById(long id);
     void madeAdmin(User user);
     void dismissAdmin(User user);
+    void dismissUser(User user);
+    void madeUser(User user);
+    User getByLogin(String login);
 }

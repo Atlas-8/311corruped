@@ -47,6 +47,22 @@ public class UserServiceImpl implements UserService {
         userRepository.saveAndFlush(user);
     }
 
+    @Override
+    public void madeUser(User user){
+        Role role = roleService.getRole("ROLE_USER");
+        role.getUsers().add(user);
+        user.getRoles().add(role);
+        userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public void dismissUser(User user){
+        Role role = roleService.getRole("ROLE_USER");
+        role.getUsers().remove(user);
+        user.getRoles().remove(role);
+        userRepository.saveAndFlush(user);
+    }
+
     public void dismissAdmin(User user){
         Role role = roleService.getRole("ROLE_ADMIN");
         role.getUsers().remove(user);
@@ -61,19 +77,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(long id) throws SQLException {
+    public boolean deleteUser(long id) throws SQLException {
         userRepository.deleteById(id);
+        return true;
     }
 
     @Override
-    public void updateUser(String name, String adress, String email, String login, String password, long oldId){
+    public boolean updateUser(String name, String adress, String email, String login, String password, long oldId){
         User userDto = userRepository.findById(oldId).get();
-        userDto.setName(name);
-        userDto.setName(email);
-        userDto.setName(adress);
-        userDto.setName(login);
+        userDto.setUsername(login);
         userDto.setPassword(encoder.encode(password));
+        userDto.setName(name);
+        userDto.setEmail(email);
+        userDto.setAdress(adress);
         userRepository.saveAndFlush(userDto);
+        return true;
     }
 
     @Override
@@ -88,5 +106,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getById(long id){
         return userRepository.getOne(id);
+    }
+
+    @Override
+    public  User getByLogin(String login){
+        return userRepository.getUserByLogin(login);
     }
 }

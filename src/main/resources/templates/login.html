@@ -2,28 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
-<h1>Login page</h1>
-
-<br>
-<form class="button" th:action="@{/registration}" method="GET">
-    <input type="submit" value="Sign up"/>
-</form>
-<br>
-
-<form th:action="@{/login}" method="post">
-    <label for="username">Username</label>:
-    <input type="text" id="username" name="username" autofocus="autofocus" /> <br />
-    <br>
-    <label for="password">Password</label>:
-    <input type="password" id="password" name="password" /> <br />
-    <br>
-    <input type="submit" value="Log in" />
-</form>
+<br><br>
+<div class="container col-3">
+    <form role="form" th:action="@{/login}" method="post">
+        <h2><b>Please sign in</b></h2>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Enter login" name="username" required>
+            <input type="password" class="form-control" placeholder="Password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-lg">Sign in</button>
+    </form>
+</div>
 
 </body>
 </html>

@@ -1,0 +1,39 @@
+
+<form action="#" method="post">
+    <div class="container col-6 font-weight-bold">
+        <div class="form-row justify-content-center">
+            <label for="modalEdit_id" class="col-form-label">ID</label>
+            <input name="id" type="text" class="form-control" id="modalEdit_id" placeholder="ID" th:value="${user.id}" readonly>
+        </div>
+        <div class="form-row justify-content-center">
+            <label for="modalEdit_username" class="col-form-label">Login</label>
+            <input name="login" type="text" class="form-control" id="modalEdit_username" placeholder="Login" th:value="${user.getUsername()}">
+        </div>
+        <div class="form-row justify-content-center">
+            <label for="modalEdit_password" class="col-form-label">Password</label>
+            <input name="password" type="text" class="form-control" id="modalEdit_password" placeholder="Password"  th:value="${user.password}">
+        </div>
+        <div class="form-row justify-content-center">
+            <label for="modalEdit_name" class="col-form-label">Name</label>
+            <input name="name" type="text" class="form-control" id="modalEdit_name" placeholder="Name"  th:value="${user.name}">
+        </div>
+        <div class="form-row justify-content-center">
+            <label for="modalEdit_email" class="col-form-label">Email</label>
+            <input name="email" type="text" class="form-control" id="modalEdit_email" placeholder="Email"  th:value="${user.email}">
+        </div>
+        <div class="form-row justify-content-center">
+            <label for="modalEdit_adress" class="col-form-label">Address</label>
+            <input name="adress" type="text" class="form-control" id="modalEdit_adress" placeholder="Adress"  th:value="${user.adress}">
+        </div>
+        <div class="form-row  justify-content-center">
+            <label for="modalEdit_role" class="col-form-label">Roles</label>
+            <select class="custom-select" size="2" name="role" id="modalEdit_role" multiple>
+                <p>
+                    <option value="Admin">Admin</option>
+                    <option value="User">User</option>
+                </p>
+            </select>
+        </div>
+        <br>
+    </div>
+</form>

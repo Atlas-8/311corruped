@@ -1,0 +1,36 @@
+
+<form action="#" method="post">
+    <div class="container col-6 font-weight-bold">
+        <div class="form-row justify-content-center">
+            <label for="modalDelete_id" class="col-form-label">ID</label>
+            <input type="text" class="form-control" id="modalDelete_id" placeholder="ID" th:value="${user.id}" readonly>
+        </div>
+        <div class="form-row justify-content-center">
+            <label for="modalDelete_username" class="col-form-label">Login</label>
+            <input type="text" class="form-control" id="modalDelete_username" placeholder="Login" th:value="${user.getUsername()}" readonly>
+        </div>
+        <div class="form-row justify-content-center">
+            <label for="modalDelete_password" class="col-form-label">Password</label>
+            <input type="text" class="form-control" id="modalDelete_password" placeholder="Password"  th:value="${user.password}" readonly>
+        </div>
+        <div class="form-row justify-content-center">
+            <label for="modalDelete_name" class="col-form-label">Name</label>
+            <input type="text" class="form-control" id="modalDelete_name" placeholder="Name"  th:value="${user.name}" readonly>
+        </div>
+        <div class="form-row justify-content-center">
+            <label for="modalDelete_email" class="col-form-label">Email</label>
+            <input type="text" class="form-control" id="modalDelete_email" placeholder="Email"  th:value="${user.email}" readonly>
+        </div>
+        <div class="form-row justify-content-center">
+            <label for="modalDelete_adress" class="col-form-label">Adress</label>
+            <input type="text" class="form-control" id="modalDelete_adress" placeholder="Adress"  th:value="${user.adress}" readonly>
+        </div>
+        <div class="form-row  justify-content-center">
+            <label for="modalDelete_roles" class="col-form-label">Roles</label>
+            <select class="custom-select" size="2" id="modalDelete_roles" multiple  disabled>
+                <p><option th:each="userRole : *{user.roles}"><span th:text="${userRole}"></span></option></p>>
+            </select>
+        </div>
+        <br>
+    </div>
+</form>
