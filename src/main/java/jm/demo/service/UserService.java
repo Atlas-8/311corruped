@@ -21,4 +21,5 @@ public interface UserService extends UserDetailsService {
     void dismissUser(User user);
     void madeUser(User user);
     User getByLogin(String login);
+    void newAdmin(User user);
 }

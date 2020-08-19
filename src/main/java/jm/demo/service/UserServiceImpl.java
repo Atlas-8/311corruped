@@ -84,6 +84,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean updateUser(String name, String adress, String email, String login, String password, long oldId){
+        User userFromDB = userRepository.getUserByLogin(login);
         User userDto = userRepository.findById(oldId).get();
         userDto.setUsername(login);
         userDto.setPassword(encoder.encode(password));
@@ -111,5 +112,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public  User getByLogin(String login){
         return userRepository.getUserByLogin(login);
+    }
+
+    @Override
+    public void newAdmin(User user){
+        User userFromDB = userRepository.getUserByLogin(user.getUsername());
+        if (userFromDB != null) {
+            throw new RuntimeException("login is already exist");
+        }
+        user.setRoles(Collections.singleton(roleService.getRole("ROLE_ADMIN")));
+        user.setPassword(encoder.encode(user.getPassword()));
+        userRepository.saveAndFlush(user);
     }
 }
