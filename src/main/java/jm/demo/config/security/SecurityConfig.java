@@ -56,7 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //Доступ только для не зарегистрированных пользователей
                 .antMatchers("/registration").not().fullyAuthenticated()
                 //Доступ разрешен всем пользователей
-                .antMatchers("/resources/**").permitAll();
+                .antMatchers("/resources/**").permitAll()
+                .antMatchers("/getUsers").permitAll();
 
         http.logout()
                 // разрешаем делать логаут всем

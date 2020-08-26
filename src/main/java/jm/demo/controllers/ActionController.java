@@ -6,26 +6,52 @@ import jm.demo.service.RoleService;
 import jm.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @RestController
-public class EditController {
+public class ActionController {
 
     UserService userService;
     RoleService roleService;
     PasswordEncoder encoder;
 
     @Autowired
-    public EditController(UserService userService, RoleService roleService, PasswordEncoder encoder) {
+    public ActionController(UserService userService, RoleService roleService, PasswordEncoder encoder) {
         this.userService = userService;
         this.roleService = roleService;
         this.encoder = encoder;
+    }
+
+    @PostMapping(value = "/saveUser")
+    public void saveUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String name = request.getParameter("name");
+        String adress = request.getParameter("adress");
+        String email = request.getParameter("email");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String role = request.getParameter("role");
+
+        User user = new User(name, adress, email, username, password);
+        try {
+            if (role.contains("Admin")){
+                userService.newAdmin(user);
+            } else {
+                userService.add(user);
+            }
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+        }
+
+        response.setContentType("text/html;charset=utf-8");
+        response.sendRedirect("/users/");
     }
 
     @PostMapping(path = "/editUserAction/")
@@ -69,5 +95,25 @@ public class EditController {
         return resp;
     }
 
+    @GetMapping(path = "/deleteUserAction/{id}")
+    public Map<String, String> deleteUserAction(@PathVariable("id") long id) throws SQLException {
+        HashMap<String, String> response = new HashMap<>();
+        if (userService.deleteUser(id)) {
+            response.put("status", "success");
+            return response;
+        }
+        response.put("status", "error");
+        return response;
+    }
+
+    @GetMapping(value = "/getUsers")
+    public @ResponseBody List<User> getUsers() {
+        return userService.listUsers();
+    }
+
+    @GetMapping(value = "/getUser/{id}")
+    public @ResponseBody User getById(@PathVariable ("id") long id) {
+        return userService.getById(id);
+    }
 
 }

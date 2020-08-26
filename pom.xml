@@ -81,6 +81,11 @@
             <artifactId>hibernate-entitymanager</artifactId>
             <version>5.4.13.Final</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-core</artifactId>
+            <version>5.2.2.RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>

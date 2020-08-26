@@ -23,7 +23,6 @@
 
 <body>
 
-
 <nav class="navbar navbar-dark bg-dark">
 
     <p class="nav-item nav-text text-white my-1" th:object="${user}"><span th:text="*{email}"></span> with roles:
@@ -53,40 +52,40 @@
 
             <div class="h1">User information-page</div>
 
-            <div class="card-title">
+            <table class="table table-striped ">
+                <thead>
+                <tr>
+                    <th colspan="7">
+                        <span class="h4">About user</span>
+                    </th>
+                </tr>
+                <tr>
+                    <th class="col-1">Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Adress</th>
+                    <th>Login</th>
+                    <th>Password</th>
+                    <th>Roles</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.adress}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.password}"></td>
+                    <td>
+                        <div th:each="userRole : *{user.roles}">
+                            <span th:text="${userRole}"></span>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
-                <table class="table table-striped ">
-                    <thead>
-                    <tr>
-                        <th>
-                            <span class="h4">About user</span>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Adress</th>
-                        <th>Login</th>
-                        <th>Roles</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td th:text="${user.id}"></td>
-                        <td th:text="${user.name}"></td>
-                        <td th:text="${user.email}"></td>
-                        <td th:text="${user.adress}"></td>
-                        <td th:text="${user.username}"></td>
-                        <td>
-                            <div th:each="userRole : *{user.roles}">
-                                <span th:text="${userRole}"></span>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
 </div>
