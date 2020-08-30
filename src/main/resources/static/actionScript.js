@@ -10,10 +10,10 @@ function saveUser() {
 
         username: $('#newUserForm #username').val(),
         password: $('#newUserForm #password').val(),
-        name: $('#newUserForm #name').val(),
-        email: $('#newUserForm #email').val(),
-        adress: $('#newUserForm #adress').val(),
-        roles: [],
+        name:     $('#newUserForm #name').val(),
+        email:    $('#newUserForm #email').val(),
+        adress:   $('#newUserForm #adress').val(),
+        roles:    [],
 
     };
 
