@@ -87,19 +87,3 @@ function updateUser(){
         });
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

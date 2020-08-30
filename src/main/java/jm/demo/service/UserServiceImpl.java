@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -94,7 +93,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteUser(long id) throws SQLException {
+    public boolean deleteUser(long id) {
         userRepository.deleteById(id);
         return true;
     }
@@ -117,11 +116,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getById(long id){
         return userRepository.getOne(id);
-    }
-
-    @Override
-    public  User getByLogin(String login){
-        return userRepository.getUserByLogin(login);
     }
 
 }
