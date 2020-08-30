@@ -19,6 +19,7 @@
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             crossorigin="anonymous"></script>
 
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 
 <body>
@@ -101,7 +102,7 @@
                             <tr>
                                 <th>
                                     <div class="container col-4">
-                                        <form th:action="@{/saveUser}" th:object="${newUser}" method="post">
+                                        <form th:object="${newUser}" id="newUserForm">
 
                                             <div class="form-row justify-content-center font-weight-bold">
                                                 <label for="username">Login</label>
@@ -138,15 +139,14 @@
 
                                             <div class="form-row  justify-content-center font-weight-bold">
                                                 <label for="userRoles" class="col-form-label">Roles</label>
-                                                <select class="custom-select" size="2" name="role" id="userRoles"
-                                                        multiple>
+                                                <select   class="custom-select" size="2" name="role" id="userRoles" multiple>
                                                     <option value="Admin">Admin</option>
                                                     <option selected value="User">User</option>
                                                 </select>
                                             </div>
 
                                             <div class="form-row justify-content-center my-3">
-                                                <input type="submit" class="btn btn-success" value="Add new user">
+                                                <input type="button" class="btn btn-success" value="Add new user" onclick="saveUser()">
                                             </div>
                                         </form>
                                     </div>
@@ -205,6 +205,7 @@
 
 
 <script type="text/javascript" th:src="@{/tableScript.js}"></script>
+<script type="text/javascript" th:src="@{/modalScript.js}"></script>
 <script type="text/javascript" th:src="@{/actionScript.js}"></script>
 
 

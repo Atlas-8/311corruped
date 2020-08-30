@@ -39,6 +39,19 @@ public class User implements UserDetails {
 
     public User() {}
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", Name='" + Name + '\'' +
+                ", Adress='" + Adress + '\'' +
+                ", Email='" + Email + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
+
     public User(String Name, String Adress, String Email) {
         this.Name = Name;
         this.Adress = Adress;

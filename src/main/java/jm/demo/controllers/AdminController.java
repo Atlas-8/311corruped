@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.sql.SQLException;
-import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -33,7 +32,6 @@ public class AdminController {
 
     @GetMapping
     public String printUsers(ModelMap model) {
-        List<User> users = userService.listUsers();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Object obj = auth.getPrincipal();
         String username = "";
@@ -43,7 +41,6 @@ public class AdminController {
             username = obj.toString();
         }
         User admin = (User) userService.loadUserByUsername(username);
-        model.addAttribute("users", users);
         model.addAttribute("admin", admin);
         model.addAttribute("newUser", new User());
         return "users";

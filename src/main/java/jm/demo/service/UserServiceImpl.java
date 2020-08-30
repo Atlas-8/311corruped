@@ -1,5 +1,7 @@
 package jm.demo.service;
 
+import jm.demo.model.Role;
+import jm.demo.model.User;
 import jm.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,11 +9,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import jm.demo.model.Role;
-import jm.demo.model.User;
 import java.sql.SQLException;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,12 +30,28 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void add(User user) {
+    public void addUser(User user) {
         User userFromDB = userRepository.getUserByLogin(user.getUsername());
         if (userFromDB != null) {
             throw new RuntimeException("login is already exist");
         }
-        user.setRoles(Collections.singleton(roleService.getRole("ROLE_USER")));
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleService.getRole("ROLE_USER"));
+        user.setRoles(roles);
+        user.setPassword(encoder.encode(user.getPassword()));
+        userRepository.saveAndFlush(user);
+    }
+
+    @Transactional
+    @Override
+    public void addAdmin(User user) {
+        User userFromDB = userRepository.getUserByLogin(user.getUsername());
+        if (userFromDB != null) {
+            throw new RuntimeException("login is already exist");
+        }
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleService.getRole("ROLE_ADMIN"));
+        user.setRoles(roles);
         user.setPassword(encoder.encode(user.getPassword()));
         userRepository.saveAndFlush(user);
     }
@@ -83,15 +100,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUser(String name, String adress, String email, String login, String password, long oldId){
-        User userFromDB = userRepository.getUserByLogin(login);
-        User userDto = userRepository.findById(oldId).get();
-        userDto.setUsername(login);
-        userDto.setPassword(encoder.encode(password));
-        userDto.setName(name);
-        userDto.setEmail(email);
-        userDto.setAdress(adress);
-        userRepository.saveAndFlush(userDto);
+    public boolean updateUser(User user){
+        userRepository.saveAndFlush(user);
         return true;
     }
 
@@ -114,14 +124,4 @@ public class UserServiceImpl implements UserService {
         return userRepository.getUserByLogin(login);
     }
 
-    @Override
-    public void newAdmin(User user){
-        User userFromDB = userRepository.getUserByLogin(user.getUsername());
-        if (userFromDB != null) {
-            throw new RuntimeException("login is already exist");
-        }
-        user.setRoles(Collections.singleton(roleService.getRole("ROLE_ADMIN")));
-        user.setPassword(encoder.encode(user.getPassword()));
-        userRepository.saveAndFlush(user);
-    }
 }

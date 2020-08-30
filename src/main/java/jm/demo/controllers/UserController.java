@@ -38,7 +38,6 @@ public class UserController {
 
         User user = (User) userService.loadUserByUsername(username);
         model.addAttribute("user", user);
-        model.addAttribute("userId", user.getId());
         return "userPage";
     }
 }
