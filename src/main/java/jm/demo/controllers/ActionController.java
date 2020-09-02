@@ -81,9 +81,9 @@ public class ActionController {
         return response;
     }
 
-    @GetMapping(value = "/getUsers")
-    public @ResponseBody List<User> getUsers() {
-        return userService.listUsers();
+    @GetMapping(value = "/getUsers", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<User>> getUsers() {
+        return new ResponseEntity<>(userService.listUsers(), HttpStatus.OK);
     }
 
 }

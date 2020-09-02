@@ -40,32 +40,30 @@ public class User implements UserDetails {
     public User() {}
 
     @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", Name='" + Name + '\'' +
-                ", Adress='" + Adress + '\'' +
-                ", Email='" + Email + '\'' +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", roles=" + roles +
-                '}';
+    public String toString(){
+        return "User{" + "id="          + id
+                       + ", Name='"     + Name     + '\''
+                       + ", Adress='"   + Adress   + '\''
+                       + ", Email='"    + Email    + '\''
+                       + ", login='"    + login    + '\''
+                       + ", password='" + password + '\''
+                       + ", roles="     + roles    + '}';
     }
 
-    public User(String Name, String Adress, String Email) {
+    public User(String Name, String Adress, String Email){
         this.Name = Name;
         this.Adress = Adress;
         this.Email = Email;
     }
 
-    public User(long id, String Name, String Adress, String Email) {
+    public User(long id, String Name, String Adress, String Email){
         this.id = id;
         this.Name = Name;
         this.Adress = Adress;
         this.Email = Email;
     }
 
-    public User(long id, String name, String adress, String email, String login, String password) {
+    public User(long id, String name, String adress, String email, String login, String password){
         this.id = id;
         this.Name = name;
         this.Adress = adress;
@@ -74,7 +72,7 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public User(String name, String adress, String email, String login, String password) {
+    public User(String name, String adress, String email, String login, String password){
         this.Name = name;
         this.Adress = adress;
         this.Email = email;
@@ -174,7 +172,7 @@ public class User implements UserDetails {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o){
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;

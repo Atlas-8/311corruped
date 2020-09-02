@@ -13,7 +13,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import java.sql.SQLException;
 
 @Controller
 @RequestMapping("/users")
@@ -42,7 +41,6 @@ public class AdminController {
         }
         User admin = (User) userService.loadUserByUsername(username);
         model.addAttribute("admin", admin);
-        model.addAttribute("newUser", new User());
         return "users";
     }
 
@@ -53,7 +51,7 @@ public class AdminController {
     }
 
     @GetMapping(value = "/deleteUserModal/{id}")
-    public String deleteUserModal(ModelMap model, @PathVariable("id") long id) throws SQLException {
+    public String deleteUserModal(ModelMap model, @PathVariable("id") long id) {
         model.addAttribute("user", userService.getById(id));
         return "modalDelete";
     }

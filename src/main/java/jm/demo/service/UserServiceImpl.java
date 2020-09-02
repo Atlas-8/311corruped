@@ -79,6 +79,7 @@ public class UserServiceImpl implements UserService {
         userRepository.saveAndFlush(user);
     }
 
+    @Override
     public void dismissAdmin(User user){
         Role role = roleService.getRole("ROLE_ADMIN");
         role.getUsers().remove(user);

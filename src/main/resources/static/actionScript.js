@@ -59,7 +59,7 @@ function updateUser(){
 
     };
 
-    if ( $('#modalEdit_role').val().length === 2) {
+    if ( $('#modalEdit_role').val().length === 2 ) {
         user.roles = [adminRole, userRole];
     } else if ($('#editModal #modalEdit_role').val().indexOf('Admin') !== -1) {
         user.roles = [adminRole];

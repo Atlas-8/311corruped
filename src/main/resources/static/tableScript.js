@@ -22,14 +22,14 @@ function table() {
                 'data-target="#deleteModal" value="' + row.id + '"> Delete </button>';
 
             $('#testTable').append('<tr><td>' + row.id + '</td><td>'
-                + row.name + '</td><td>'
-                + row.email + '</td><td>'
-                + row.adress + '</td><td>'
-                + row.username + '</td><td>'
-                + row.password + '</td><td>'
-                + currentRole + '</td><td>'
-                + editButton + '</td><td>'
-                + deleteButton + '</td></tr>');
+                                              + row.name + '</td><td>'
+                                              + row.email + '</td><td>'
+                                              + row.adress + '</td><td>'
+                                              + row.username + '</td><td>'
+                                              + row.password + '</td><td>'
+                                              + currentRole + '</td><td>'
+                                              + editButton + '</td><td>'
+                                              + deleteButton + '</td></tr>');
         })
     }
 
@@ -43,7 +43,7 @@ function table() {
             renderTable(json);
         })
         .catch(function (error) {
-            log('Request failed', error)
+            console.log('Request failed', error)
         });
 }
 

@@ -82,10 +82,8 @@
                             </tr>
                             </thead>
                             <tbody id="testTable">
-
                             </tbody>
                         </table>
-
                 </div>
 
                 <div class="tab-pane fade" id="newUserTable">
@@ -102,38 +100,38 @@
                             <tr>
                                 <th>
                                     <div class="container col-4">
-                                        <form th:object="${newUser}" id="newUserForm">
+                                        <form  id="newUserForm">
 
                                             <div class="form-row justify-content-center font-weight-bold">
                                                 <label for="username">Login</label>
-                                                <input type="text" th:field="*{username}" class="form-control"
+                                                <input type="text"  class="form-control"
                                                        id="username"
                                                        placeholder="login" required>
                                             </div>
 
                                             <div class="form-row justify-content-center font-weight-bold">
                                                 <label for="password" class="col-form-label">Password</label>
-                                                <input type="text" th:field="*{password}" class="form-control"
+                                                <input type="text"  class="form-control"
                                                        id="password"
                                                        placeholder="password" required>
                                             </div>
 
                                             <div class="form-row justify-content-center font-weight-bold">
                                                 <label for="name" class="col-form-label">Name</label>
-                                                <input type="text" th:field="*{name}" class="form-control" id="name"
+                                                <input type="text"  class="form-control" id="name"
                                                        placeholder="Name"
                                                        required>
                                             </div>
 
                                             <div class="form-row justify-content-center font-weight-bold">
                                                 <label for="email" class="col-form-label">Email</label>
-                                                <input type="text" th:field="*{email}" class="form-control" id="email"
+                                                <input type="text"  class="form-control" id="email"
                                                        placeholder="Email" required>
                                             </div>
 
                                             <div class="form-row justify-content-center font-weight-bold">
                                                 <label for="adress" class="col-form-label">Adress</label>
-                                                <input type="text" th:field="*{adress}" class="form-control" id="adress"
+                                                <input type="text"  class="form-control" id="adress"
                                                        placeholder="adress">
                                             </div>
 
